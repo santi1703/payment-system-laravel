@@ -22,3 +22,6 @@ Sé que hay varias posibilidades de mejora, y que hay casos que no terminé de r
 
 
 Para el tercer punto del ejercicio, se agrega la tabla geolocations, en la cual se registran las coordenadas de la localización, y el id del usuario del que corresponda el registro, además se agrega una columna taken_on con la fecha correspondiente del registro, considerando que la información pudiera ser relevante para posteriores análisis o estadísticas.
+
+
+Las rutas definidas son /locate para el punto 5 del ejercicio y /teams para el punto 6.

@@ -45,6 +45,9 @@
                 Miembros:
             </div>
             <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {{ $team->owner()->first()->fullName }} <span class="badge badge-primary">Responsable</span>
+                </li>
                 @foreach($team->members as $member)
                     <li class="list-group-item">{{ $member->fullName }}</li>
                 @endforeach
