@@ -14,6 +14,7 @@
                 <input type="text" name="last_name" value="{{ $lastName }}" class="form-control">
             </div>
             <input type="submit" value="Consultar" class="btn btn-primary"/>
+            <a href="{{ route('locate-user') }}" class="btn btn-secondary"> Limpiar</a>
         </form>
     </div>
     <div>
