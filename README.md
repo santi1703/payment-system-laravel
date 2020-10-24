@@ -1,61 +1,24 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+Cree el esquema utilizando herramientas de terceros, al igual que el código SQL fue generado automáticamente por herramientas de terceros.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+https://app.sqldbm.com/ fue utilizada para crear el diagrama, HeidiSQL fue utilizado para generar el código SQL.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Para las tablas correspondientes a modelos del framework de PHP utilizado (Laravel) se utilizó la clave y nomenclatura estándar del framework (una columna llamada id de tipo int autoincremental y siendo ésta columna clave primaria de cada respectiva tabla).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+La tabla que primero fue creada fue users, para almacenar datos de usuarios, se incluyeron columnas para guardar nombre, apellido e email, además de los campos por defecto de la migración incorporada por Laravel, no vi necesario remover campos para éste ejercicio.
 
-## Learning Laravel
+La siguiente tabla fue teams, para almacenar datos de equipos, en éste caso se guarda el nombre del equipo, además del id que es su clave primaria, por el motivo aclarado al comienzo.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Cree una tabla para una relación de muchos a muchos entre usuarios y equipos, considerando que un usuario pueda pertenecer a más de un equipo, y asimismo los equipos pueden tener más de un usuario que lo integre. En ésta tabla creé una clave primaria compuesta que integra user_id y team_id para no permitir agregar reiteradas veces la relación entre mismo usuario y equipo, además éstas dos columnas fueron marcadas como claves foráneas referenciando a las respectivas tablas. Se agregó además una columna responsable, de tipo tinyint en la que se marca el usuario responsable del pago de las facturas de las suscripciones.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+La siguiente tabla creada fue subscriptions, en la que se guardan los datos de los servicios de suscripción, ademas de las columnas y nombre, se agregó una columna booleana para guardar el estado del servicio (suponiendo que pudiera dejar de ser un servicio activo al cual pudieran suscribirse los equipos)
 
-## Laravel Sponsors
+La relación entre equipos y teams es de muchos a muchos, por lo que se creó la tabla intermedia subscriptions_teams, la tabla tiene los campos subscription_id y team_id para establecer la relación entre las respectivas tablas. En ésta tabla consideré agregar una columna id para poder ser referenciada en la tabla invoices.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Para la facturación se creó la tabla invoices, que representa cada factura emitida por servicio y equipo, el pago se representa cuando la columna paid_on y paid_by tengan un valor distinto de NULL. Ésta tabla contiene una columna created_on que almacena la fecha de emisión del comprobante, un campo amount con el precio que resulte del cálculo correspondiente por el equipo al que le sea facturado el servicio, y una columna subscribtion_team_id que referencia a que subscripción de que team corresponde el comprobante. El comprobante guarda el nombre de quién realizó el pago, considerando que eventualmente el responsable del equipo pudiera cambiar.
 
-### Premium Partners
+Sé que hay varias posibilidades de mejora, y que hay casos que no terminé de resolver con ésta estructura, a mi mismo se me ocurre más de uno, por ejemplo acciones a tomar en cuenta con las tablas foráneas para evitar conflictos al momento de remover registros de tablas relacionadas a otras, pero ahora mismo con el tiempo apremiando no podría dar una completa solución a casos de ése tipo, y para los puntos del ejercicio no generarían mayores conflictos.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Para el tercer punto del ejercicio, se agrega la tabla geolocations, en la cual se registran las coordenadas de la localización, y el id del usuario del que corresponda el registro, además se agrega una columna taken_on con la fecha correspondiente del registro, considerando que la información pudiera ser relevante para posteriores análisis o estadísticas.
